@@ -9,7 +9,7 @@
     "verbose": true,
     "browser": true,
     "modulePaths": [
-      "<rootDir>/src/js"
+      "<rootDir>/src"
     ]
   },
   "repository": {
