@@ -1,4 +1,11 @@
-export const defaultOptions = { 
+import lizard from '../images/lizard.svg';
+import paper from '../images/paper.svg';
+import rock from '../images/rock.svg';
+import scissors from '../images/scissors.svg';
+import spock from '../images/spock.svg';
+
+export const defaultOptions = {
+  images: {rock, paper, scissors},
   selections: ['rock', 'paper', 'scissors'],
   combinations:[ {rock: null, paper: [0, 'covers'], scissors: [1, 'blunts'] },
   {rock: [1, 'covers'], paper: null, scissors: [0, 'cuts'] },
@@ -6,6 +13,7 @@ export const defaultOptions = {
 }
 
 export const advancedOptions = { 
+  images: {rock, paper, scissors, spock, lizard},
   selections: ['rock', 'paper', 'scissors', 'lizard', 'spock'],
   combinations:[{
     rock: null, 

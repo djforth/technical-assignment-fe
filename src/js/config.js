@@ -4,7 +4,7 @@ import rock from '../images/rock.svg';
 import scissors from '../images/scissors.svg';
 import spock from '../images/spock.svg';
 /* 
-Configs are adaptable so new options can be added
+Configs are adaptable so new options can be added or new config created
 
 basic config is as so:
 

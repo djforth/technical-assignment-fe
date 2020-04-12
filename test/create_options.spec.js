@@ -15,6 +15,10 @@ const checkOptionsOpt = function(title, config, expected) {
       expect(options.selections).toEqual(expect.arrayContaining(expected.selections));
     });
 
+    test('should have correct images', () => {
+      expect(options.selections).toEqual(expect.arrayContaining(expected.selections));
+    });
+
     // Loops over expected to compare with output
     expected.combinations.forEach((opts, i)=>{
       test(`config should the correct options`, () => {
@@ -57,7 +61,6 @@ describe('Should create valid options', () => {
         rock: {image:'', lose:'paper', win:{ scissors: 'blunt'}}, 
         scissors: {image:'', lose:'rock', win: {paper: 'cut'}}
       });
-      // expect(['win'].includes('win')).toBeTruthy();
       expect(failure).toThrowError('No response for paper, please check config');
     });
   });
