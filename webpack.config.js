@@ -7,7 +7,9 @@ module.exports = {
 	cache: true,
 	devtool: "source-map",
 	devServer: {
-		inline: true
+		inline: true,
+		host: '0.0.0.0', // For testing 
+		hot: true, // To improve workflow
 	},
 	resolve: {
 		extensions: [".js"]
