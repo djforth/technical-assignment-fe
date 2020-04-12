@@ -1,0 +1,63 @@
+// If grid not supported
+.no-grid {
+	.game {
+		display: flex;
+		flex-wrap: wrap;
+  }
+  
+  .game__title {
+    flex: 0 0 100%;
+    order: 0;
+  }
+  
+  .game__player,
+  .game__result {
+    flex: 0 0 33%;
+  }
+
+  .game__result {
+    order: 2;
+  }
+
+  .game__player--p1 {
+    order: 1;
+    justify-self: flex-end;
+  }
+
+  .game__player--p2 {
+    order: 3;
+    justify-self: flex-end;
+  }
+}
+
+
+// If grid supported
+@supports (display: grid) {
+	.grid .game {
+		display: grid;
+		grid-gap: 10px;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-rows: auto 1fr;
+		grid-template-areas:
+		"header  header  header"
+		"player1  result  player2";
+	}
+
+	.game__title {
+		grid-area: header;
+	}
+
+	.game__player--p1 {
+		grid-area: player1;
+	}
+
+	.game__player--p1 {
+		grid-area: player2;
+	}
+
+	.game__result {
+		grid-area: result;
+	}
+}
+
+

@@ -1,9 +1,68 @@
-@import './style.css';
+@import './layout.scss';
+
+$bg: white;
+$border: black;
+$fontColour: #333;
+$hover: rebeccapurple;
+$hoverText: white;
+
 
 body {
-	background-color: green;
+	background-color: $bg;
+	color: $fontColour;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 100%;
+}
 
-	h1 {
-		color: white;
+.game__button {
+	border: 3px solid $border;
+	cursor: pointer;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 1em;
+	padding: 0.5em 1em;
+
+	&:hover {
+		background-color: $hover;
+		color: $hoverText; 
 	}
+}
+
+.game__result {
+	text-align: center;
+}
+
+.game__title {
+	font-size: 2em;
+	text-align: center;
+}
+
+// Player sections
+.game__player {
+	border: 8px solid $border;
+	padding: 2em;
+}
+
+.game__label--main {
+	font-weight: bold;
+
+	&::after {
+		content: ':';
+	}
+}
+
+// Player buttons
+.game__selection {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 1em 0;
+	padding: 0;
+}
+
+.game__buttons-list {
+	list-style: none;
+	flex: 1;
+}
+
+.game__button--selection {
+	min-width: 100px;
 }
