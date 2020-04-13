@@ -1,54 +1,83 @@
-import { hasKey, isFullObject, isFullString } from './helpers';
+import { hasKey } from './helpers';
 
-// Checks valid data
-const checkData = (player1, player2)=>isFullObject(player1) && isFullString(player2) && hasKey(player1, player2);
+// State Management
+export const State = (config)=>{
+  const state = {
+    player1: { selected: null, wins: 0 },
+    player2: { selected: null, wins: 0 } 
+  };
+
+  return {
+    config,
+    get: (player, key)=>{
+      if(key) return state[player][key];
+      return state[player];
+    },
+    set(player, key, value) {
+      state[player][key] = value;
+    },
+    win: (player)=>{
+      state[player].wins += 1;
+    }
+  }
+}
 
 // Returns display response
 const createResponse = (winner, loser, response)=>{
-  return `${winner} ${response} ${loser}`
-}
-
-// Gets name of player 1 selection from object
-// data like so {rock: null, paper: [0, 'covers'], scissors: [1, 'blunts'] }
-const getPlayer1 = (player1)=>{
-  return Object.entries(player1).reduce((name, [key, value])=>{
-    if(value === null) return key;
-    return name;
-  }, '')
+  return `${winner} ${response[loser]} ${loser}`
 }
 
 // Returns winner data 
-// * options data like so {rock: null, paper: [0, 'covers'], scissors: [1, 'blunts'] }
+// * win = [{scissors: 'blunts'}]
 // * player1 = string ('rock')
 // * player2 = string ('paper')
-const getWinner = (options, player1, player2)=>{
-  // Null means same selection so draw
-  if(options === null) return { result: -1, response: 'Draw'}
-
-  const [result, response] = options;
-
-  // Player 1 wins
-  if(result === 1) return { result, response: createResponse(player1, player2, response) };
+const isWinner = ({win}, { main, opponent, player})=>{
+  // See if in win list
+  const response = win.find((comb)=>hasKey(comb, opponent));
+  if(!response) return false;
   
-  // Player 2 wins
-  return { result, response: createResponse(player2, player1, response) };
+  return { result: player, response: createResponse(main, opponent, response) };
 }
 
 // Random pick from options for computer check
-export const RandomSelect = (selections)=> ()=> {
+export const RandomSelect = ({selections})=> ()=> {
   const select = Math.floor(Math.random() * selections.length);
   return selections[select]
 }
 
 // Returns winner data
-// * player1 data like so {rock: null, paper: [0, 'covers'], scissors: [1, 'blunts'] }
-// * player2 = string ('paper')
-export const Winner = (player1, player2)=> {
-  // Checks data is correct
-  if(!checkData(player1, player2)) {
-    throw(new Error('Player data not correct'));
-  }
+// * config - see config.js
+// * player1 = string ('paper')
+// * player2 = string ('rock')
+export const Winner = (config, player1, player2)=> {
+  if(player1 === player2) return { result: -1, response: 'Draw'};
 
-  const player1Name = getPlayer1(player1);
-  return getWinner(player1[player2], player1Name, player2)
+  return [
+    { main: player1, opponent: player2, player: 0},
+    { main: player2, opponent: player1, player: 1}
+  ].reduce((result, opts)=>{
+    if(result) return result;
+    const {main} = opts;
+    return isWinner(config[main], opts);
+  }, false);
+}
+
+const getSelection = ({selected}, random, imgs)=>{
+  const select = !selected ? random() : selected;
+  imgs(select); // Sets correct image if randomise
+  return select;
+}
+
+export const Play = (state, options, playersElements)=>{
+  const randomiser = RandomSelect(options);
+  const players = playersElements.map(({imgs, player})=>
+    getSelection(state.get(player), randomiser, imgs)
+  )  
+  const win = Winner(state.config, ...players);
+  const {result} = win;
+  if(result !== -1) {
+    state.win(result ? 'player2' : 'player1')
+  }
+  
+  return win;
 }
