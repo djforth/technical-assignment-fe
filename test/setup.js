@@ -53,13 +53,34 @@ expect.extend({
   },
 });
 
+expect.extend({
+  toHaveCss(received, expected) {
+    let pass = received instanceof Element;
+
+    if(pass) {
+      pass = received.classList.contains(expected);
+    }
+    
+    if (pass) {
+      return {
+        message: () => `element does have css class of ${expected}`,
+        pass: true,
+      };
+    }
+    return {
+      message: () => `element does not have css class of ${expected}`,
+      pass: false,
+    };
+  },
+});
+
 // Checks if element has correct attribute
 expect.extend({
   toHaveAttribute(received, expected, attr) {
     let pass = received instanceof Element;
 
     if(pass) {
-      pass = received.hasAttribute(expected) && received.getAttribute(expected) === attr;
+      pass = received.hasAttribute(expected) && received.getAttribute(expected) === attr.toString();
     }
     
     if (pass) {
@@ -69,7 +90,7 @@ expect.extend({
       };
     }
     return {
-      message: () => `element does have text content of  ${expected} = ${attr}`,
+      message: () => `element does not have attribute of  ${expected} = ${attr}`,
       pass: false,
     };
   },
@@ -79,7 +100,7 @@ expect.extend({
 expect.extend({
   toHaveTextContent(received, expected) {
 
-    const pass = received instanceof Element && received.textContent === expected;
+    const pass = received instanceof Element && received.textContent === expected.toString();
     if (pass) {
       return {
         message: () => `element does have text content of ${expected}`,
