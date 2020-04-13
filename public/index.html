@@ -5,33 +5,33 @@
 		<meta charset="UTF-8" />
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		
 	</head>
 	<body>
 		<section class="game">
 			<h1 class='game__title'>Welcome to Rock, Paper Scissors</h1>
-			<div id='result' class="game__result">
-				<h2 id='result' class="game__result-title">Play game</h2>
-				<button id="play" class="game__button" aria-pressed="false">Play</button>
+			<div class="game__result">
+				<h2 class="game__result-title">Play game</h2>
+				<p>Don't select option to autoplay</p>
+				<h3 id="result"></h3>
+				<ul class="game__play-btns">
+					<li class="game__play-btn"><button id="play" class="game__button">Play</button></li>
+					<li class="game__play-btn"><button id="version" class="game__button" data-select='advanced'>Advanced</button></li>
+				</ul>
 			</div>
 			
-			<div id="player1" class="game__player game__player--p1">
-				<form id='player1-computer' class="game__computer-select">
-					<label class="game__label game__label--main">Play as computer</label>
-					<label class="game__label"><input type='radio' value='yes' name="player1"> Yes</label>
-					<label class="game__label"><input type='radio' value='no' name="player1" > No</label>
-				</form>
-				<div id='player1-image' class="game__image"></div>
+			<section id="player1" class="game__player game__player--p1">
+				<h1 class="game__title game__title--player">Player 1</h1>
+				<h2>Wins: <span id="player1-win">0<span></h2>
+				<div id='player1-images' class="game__images"></div>
 				<div id='player1-buttons' class="game__buttons"></div>
-			</div>
-			<div id="player2" class="game__player game__player--p2">
-				<form id='player2-computer' class="game__computer-select">
-					<label class="game__label game__label--main">Play as computer</label>
-					<label class="game__label"><input type='radio' value='yes' name="player2"> Yes</label>
-					<label class="game__label"><input type='radio' value='no' name="player2"> No</label>
-				</form>
-				<div id='player2-image' class="game__image"></div>
+			</section>
+			<section id="player2" class="game__player game__player--p2">
+				<h1 class="game__title game__title--player">Player 2</h1>
+				<h2>Wins: <span id="player2-win">0<span></h2>
+				<div id='player2-images' class="game__images"></div>
 				<div id='player2-buttons' class="game__buttons"></div>
-			</div>
+			</section>
 		</section>
 	</body>
 </html>

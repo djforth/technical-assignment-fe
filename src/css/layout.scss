@@ -10,12 +10,12 @@
     order: 0;
   }
   
-  .game__player,
-  .game__result {
-    flex: 0 0 33%;
+  .game__player {
+    flex: 0 0 35%;
   }
 
   .game__result {
+		flex: 0 0 19%;
     order: 2;
   }
 
@@ -36,11 +36,33 @@
 	.grid .game {
 		display: grid;
 		grid-gap: 10px;
-		grid-template-columns: 1fr 1fr 1fr;
-		grid-template-rows: auto 1fr;
-		grid-template-areas:
-		"header  header  header"
-		"player1  result  player2";
+
+		@media (min-width: 1024px) { 
+			grid-template-columns: 1fr 0.5fr 1fr;
+			grid-template-rows: auto 1fr;
+			grid-template-areas:
+			"header  header  header"
+			"player1  result  player2";
+		}
+
+		@media (min-width: 768px) and (max-width: 1023px) { 
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: auto;
+			grid-template-areas:
+			"header header"
+			"result result"
+			"player1 player2";
+		}
+
+		@media (max-width: 767px) { 
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: auto;
+			grid-template-areas:
+			"header header"
+			"result result"
+			"player1 player1"
+			"player2 player2";
+		}
 	}
 
 	.game__title {
@@ -51,7 +73,7 @@
 		grid-area: player1;
 	}
 
-	.game__player--p1 {
+	.game__player--p2 {
 		grid-area: player2;
 	}
 

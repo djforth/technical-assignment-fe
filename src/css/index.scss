@@ -1,5 +1,20 @@
 @import './layout.scss';
 
+// Accessible way to hide items
+@mixin hidden() {
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: polygon(0 0, 0 0, 0 0);
+  -webkit-clip-path: polygon(0 0, 0 0, 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+}
+
 $bg: white;
 $border: black;
 $fontColour: #333;
@@ -12,18 +27,9 @@ body {
 	color: $fontColour;
 	font-family: 'Courier New', Courier, monospace;
 	font-size: 100%;
-}
 
-.game__button {
-	border: 3px solid $border;
-	cursor: pointer;
-	font-family: 'Courier New', Courier, monospace;
-	font-size: 1em;
-	padding: 0.5em 1em;
-
-	&:hover {
-		background-color: $hover;
-		color: $hoverText; 
+	* {
+		box-sizing: border-box;
 	}
 }
 
@@ -34,6 +40,11 @@ body {
 .game__title {
 	font-size: 2em;
 	text-align: center;
+}
+
+.game__title--player {
+	margin: 0.2em 0;
+	text-align: left;
 }
 
 // Player sections
@@ -58,11 +69,70 @@ body {
 	padding: 0;
 }
 
-.game__buttons-list {
+.game__play-btns {
+	margin: 0;
+	padding: 0;
+}
+
+.game__play-btn {
 	list-style: none;
+	margin: 1em;
+}
+
+.game__buttons[aria-hidden='true'] {
+	@include hidden;
+}
+
+.game__button {
+	border: 3px solid $border;
+	cursor: pointer;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 1em;
+	padding: 0.5em 1em;
+	text-transform: capitalize;
+
+	&:hover {
+		background-color: $hover;
+		color: $hoverText; 
+	}
+}
+
+.game__button--selected {
+	background-color: $hover;
+	color: $hoverText; 
+}
+
+.game__buttons-list {
+	align-items: center;
+	display: flex;
 	flex: 1;
+	list-style: none;
+	margin: 0.3em;
+	min-width: 140px;
+
+  justify-content: center;
 }
 
 .game__button--selection {
-	min-width: 100px;
+	width: 100%;
+}
+
+// play images
+.game__images-list {
+	margin: 0;
+	padding: 0;
+}
+
+.game__image-list {
+	margin: 0 auto;
+	list-style: none;
+	width: 200px;
+
+	&[aria-hidden='true'] {
+		@include hidden;
+	}
+}
+
+.game__image {
+	max-width: 200px;
 }
