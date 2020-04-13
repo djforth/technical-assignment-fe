@@ -1,27 +1,4 @@
 import { hasKey } from './helpers';
-
-// State Management
-export const State = (config)=>{
-  const state = {
-    player1: { selected: null, wins: 0 },
-    player2: { selected: null, wins: 0 } 
-  };
-
-  return {
-    config,
-    get: (player, key)=>{
-      if(key) return state[player][key];
-      return state[player];
-    },
-    set(player, key, value) {
-      state[player][key] = value;
-    },
-    win: (player)=>{
-      state[player].wins += 1;
-    }
-  }
-}
-
 // Returns display response
 const createResponse = (winner, loser, response)=>{
   return `${winner} ${response[loser]} ${loser}`
@@ -68,8 +45,8 @@ const getSelection = ({selected}, random, imgs)=>{
   return select;
 }
 
-export const Play = (state, options, playersElements)=>{
-  const randomiser = RandomSelect(options);
+export const Play = (state, playersElements)=>{
+  const randomiser = RandomSelect(state);
   const players = playersElements.map(({imgs, player})=>
     getSelection(state.get(player), randomiser, imgs)
   )  

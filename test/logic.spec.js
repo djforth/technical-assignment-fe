@@ -13,6 +13,7 @@ const State = jest.fn((player1 = null, player2 = null)=>{
       if(key) return state[player][key];
       return state[player];
     }),
+    selections:['rock', 'paper', 'scissors'],
     set: jest.fn((player, key, value)=>{
       state[player][key] = value;
     }),
@@ -36,10 +37,10 @@ const checkWinner = ({title, data: [player1, player2], expected})=>{
         imgs: jest.fn(),
         player: 'player2'
       }];
-      const selections = ['rock', 'paper', 'scissors']
+
       const state = State(player1, player2);
 
-      winner = Play(state, {selections}, playersElements);
+      winner = Play(state, playersElements);
     });
 
     test(`result should be ${result}`, ()=>{
@@ -86,7 +87,7 @@ describe('Test Logic', () => {
       const selections = ['rock', 'paper', 'scissors']
       const state = State();
 
-      winner = Play(state, {selections}, playersElements);
+      winner = Play(state, playersElements);
     });
 
     test(`result should be valid`, ()=>{
