@@ -3,7 +3,7 @@ import { resetButton, selectionAction, setImage } from './actions';
 import {createID, wrapperTemplate} from './helpers';
 
 // Templates
-const buttonTemplate = (title, id)=>`<li class="game__buttons-list"><button id="${id}" aria-pressed="false" class="game__button game__button--selection" data-selection="${title}">${title}</button></li>`;
+const buttonTemplate = (title, id)=>`<li class="game__buttons-list"><button id="${id}" aria-pressed="false" title="Select ${title}" class="game__button game__button--selection" data-selection="${title}">${title}</button></li>`;
 
 const listTemplate = ({hidden, id, img, title})=>`<li class="game__image-list" id="${id}" aria-hidden="${hidden}" data-image="${title}">${img}</li>`
 
@@ -53,7 +53,8 @@ const createImages = (images, elementId, player)=>{
   return findElements(imageElements);
 }
 
-export default (state, player, {images, selections})=>{
+export default (state, player)=>{
+  const {images, selections} = state;
   const imgs = createImages(images, `${player}-images`, player);
   const buttons = createButtons(selections, `${player}-buttons`, player);
 

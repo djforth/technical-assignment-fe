@@ -6,3 +6,9 @@ export default (el, ev) => {
   });
   el.dispatchEvent(event);
 };
+
+export const keyboardEvent = (el, ev, options) => {
+  const event = new KeyboardEvent(ev, options);
+
+  el.dispatchEvent(event);
+};

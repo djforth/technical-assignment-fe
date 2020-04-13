@@ -51,3 +51,51 @@ export const submit = (play)=>{
   const submitBtn = document.getElementById('play');
   click(submitBtn, play);
 }
+
+const setItem = (state, {buttons, imgs, player}, selected, no)=>{
+  state.set('player1', 'selected', selected); // sets state
+  imgs(selected);
+  const btn = document.querySelectorAll(`#${player}-buttons button`)[no];
+  buttons();
+  btn.classList.add('game__button--selected');
+}
+
+const setNo = (str)=>{
+  const no = parseInt(str) - 1; // off set for array 
+  if(no === -1) return 9; // Sets 0 to 9 for advanced game so can use all no.
+  return no; 
+}
+
+const testLength = (length, no)=>{
+  const total = length*2;
+  if(total > 9) return no > total;
+  return no >= total;
+}
+
+// Add keyboard functionality
+export const keyboard = (play, state, [player1, player2])=>{
+  // Remove any old listeners
+  document.body.removeEventListener('keydown', document.body.handler);
+
+  const {selections} = state;
+  const setPlayer1 = curry(setItem, state, player1);
+  const setPlayer2 = curry(setItem, state, player2);
+
+  const handler = e => {
+    if(e.key === 'Enter') play();
+
+    if(/^\d+$/.test(e.key)){
+      const no = setNo(e.key);
+      const length = selections.length;
+      if(testLength(length, no)) return; // Breaks if higher than options or 0
+      if(no < length){
+        setPlayer1(selections[no], no);
+      } else {
+        const key = no - length;
+        setPlayer2(selections[key], key);
+      }
+    }
+  } 
+  document.body.handler = handler; // Bind handler to body for removal on game change
+  document.body.addEventListener('keydown', handler);
+}

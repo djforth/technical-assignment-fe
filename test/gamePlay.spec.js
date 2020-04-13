@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import GamePlay from 'js/game_play';
 
-import SimulateClick from './__helpers__/simulate_click.helper';
+import SimulateClick, {keyboardEvent} from './__helpers__/simulate_click.helper';
 
 const html = readFileSync(join(__dirname, './__markup__/index.html'));
 
@@ -140,7 +140,7 @@ describe('Tests Game', () => {
     })
   });
 
-   describe('should reset if version clicked again', () => {
+  describe('should reset if version clicked again', () => {
     beforeAll(()=>{
       SimulateClick(version, 'click');
       players = ['player1', 'player2'].map(player=>({
@@ -168,5 +168,146 @@ describe('Tests Game', () => {
       })
     })
   })
-  
+
+  describe('check keyboard functions', ()=>{
+    
+      
+    describe('Check default', () => {
+      beforeAll(()=>{
+        document.body.innerHTML = html;
+        GamePlay();
+        response = document.getElementById('result');
+        submit =  document.getElementById('play');
+        version =  document.getElementById('version');
+        players = ['player1', 'player2'].map(player=>({
+          buttons: [...document.querySelectorAll(`#${player}-buttons button`)],
+          images: [...document.querySelectorAll(`#${player}-images li`)],
+          player,
+          win: document.getElementById(`${player}-win`),
+        }));
+      });
+
+      afterEach(()=>{
+        players.forEach(({buttons, images})=>{
+          buttons.forEach((btn)=>{
+            btn.classList.remove('game__button--selected');
+          });
+
+          images.forEach((img)=>{
+            img.setAttribute('aria-hidden', true);
+          });
+        });
+      });
+
+      test('should select rock player 1 if 1 pressed', () => {
+        keyboardEvent(document.body, 'keydown', { key: '1' });
+        const {buttons, images} = players[0];
+        buttons.forEach((btn, i)=>{
+          if(i === 0) {
+            expect(btn).toHaveCss('game__button--selected');
+          } else {
+            expect(btn).not.toHaveCss('game__button--selected');
+          }
+        });
+
+        images.forEach((img, i)=>{
+          if(i === 0) {
+            expect(img).toHaveAttribute('aria-hidden', false);
+          } else {
+            expect(img).toHaveAttribute('aria-hidden', true);
+          }
+        });
+      });
+
+      test('should select rock player 2 if 4 pressed', () => {
+        keyboardEvent(document.body, 'keydown', { key: '4' });
+        const {buttons, images} = players[1];
+        buttons.forEach((btn, i)=>{
+          if(i === 0) {
+            expect(btn).toHaveCss('game__button--selected');
+          } else {
+            expect(btn).not.toHaveCss('game__button--selected');
+          }
+        });
+
+        images.forEach((img, i)=>{
+          if(i === 0) {
+            expect(img).toHaveAttribute('aria-hidden', false);
+          } else {
+            expect(img).toHaveAttribute('aria-hidden', true);
+          }
+        });
+      });
+
+      test('should change nothing if too high', () => {
+        keyboardEvent(document.body, 'keydown', { key: '7' });
+        const {buttons} = players[1];
+        buttons.forEach((btn)=>{
+          expect(btn).not.toHaveCss('game__button--selected');
+        });
+      });
+    });
+
+    describe('Check advanced', () => {
+      beforeAll(()=>{
+        SimulateClick(version, 'click');
+        players = ['player1', 'player2'].map(player=>({
+          buttons: [...document.querySelectorAll(`#${player}-buttons button`)],
+          images: [...document.querySelectorAll(`#${player}-images li`)],
+          player,
+          win: document.getElementById(`${player}-win`),
+        }));
+      });
+
+      test('should select lizard player 1 if 5 pressed', () => {
+        keyboardEvent(document.body, 'keydown', { key: '5' });
+        const {buttons, images} = players[0];
+        buttons.forEach((btn, i)=>{
+          if(i === 4) {
+            expect(btn).toHaveCss('game__button--selected');
+          } else {
+            expect(btn).not.toHaveCss('game__button--selected');
+          }
+        });
+
+        images.forEach((img, i)=>{
+          if(i === 4) {
+            expect(img).toHaveAttribute('aria-hidden', false);
+          } else {
+            expect(img).toHaveAttribute('aria-hidden', true);
+          }
+        });
+      });
+
+      test('should select lizard player 2 if 0 pressed', () => {
+        keyboardEvent(document.body, 'keydown', { key: '0' });
+        const {buttons, images} = players[1];
+        buttons.forEach((btn, i)=>{
+          if(i === 4) {
+            expect(btn).toHaveCss('game__button--selected');
+          } else {
+            expect(btn).not.toHaveCss('game__button--selected');
+          }
+        });
+
+        images.forEach((img, i)=>{
+          if(i === 4) {
+            expect(img).toHaveAttribute('aria-hidden', false);
+          } else {
+            expect(img).toHaveAttribute('aria-hidden', true);
+          }
+        });
+      });
+
+      test('if enter pressed should submit', ()=>{
+        keyboardEvent(document.body, 'keydown', { key: 'Enter' });
+
+        players.forEach(({buttons})=>{
+          buttons.forEach((btn)=>{
+            expect(btn).not.toHaveCss('game__button--selected');
+          });
+        });
+      })
+    });
+  });
 });

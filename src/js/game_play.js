@@ -2,20 +2,18 @@
 import {DEFAULT_CONFIG, ADVANCED_CONFIG} from './config';
 
 import SetupPlayer from './templates';
-import CreateOptions from './create_options';
-import { State, Play } from './logic';
-import { submit } from './actions';
+import State from './state';
+import { Play } from './logic';
+import { submit, keyboard } from './actions';
 
 const createGame = (config)=>{
-  // get data for setup
-  const options = CreateOptions(config);
   // Starts state management
   const state = State(config);
   const players = []
   // Create Player 1
-  players.push(SetupPlayer(state, 'player1', options));
+  players.push(SetupPlayer(state, 'player1'));
   // Create Player 2
-  players.push(SetupPlayer(state, 'player2', options));
+  players.push(SetupPlayer(state, 'player2'));
 
   const responseText = document.getElementById('result');
   // Reset
@@ -25,8 +23,8 @@ const createGame = (config)=>{
       win.innerHTML = 0;
   });
 
-  submit(()=>{
-    const {response} = Play(state, options, players);
+  const playGame = ()=>{
+    const {response} = Play(state, players);
     responseText.innerHTML = response;
     players.forEach(({buttons, win, player})=>{
       // Sets wins
@@ -36,7 +34,10 @@ const createGame = (config)=>{
       // resets state
       state.set(player, 'selected', null);
     });
-  });
+  }
+
+  submit(playGame);
+  keyboard(playGame, state, players);
 }
 
 export default ()=>{
