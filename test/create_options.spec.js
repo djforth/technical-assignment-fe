@@ -18,14 +18,6 @@ const checkOptionsOpt = function(title, config, expected) {
     test('should have correct images', () => {
       expect(options.selections).toEqual(expect.arrayContaining(expected.selections));
     });
-
-    // Loops over expected to compare with output
-    expected.combinations.forEach((opts, i)=>{
-      test(`config should the correct options`, () => {
-        
-        expect(options.combinations[i]).toEqual(expect.objectContaining(opts));
-      });
-    })
   });
 }
 
@@ -49,19 +41,11 @@ describe('Should create valid options', () => {
     test('if config incorrect with item not correct keys', () => {
       const failure = ()=>Options({
         rock: {image:'', lose:'', win:''}, 
-        paper: {image:'', win:'' },
+        paper: {win:'' },
         scissors: {image:'', lose:'', win:''}
       });
       // expect(['win'].includes('win')).toBeTruthy();
       expect(failure).toThrowError("Config must have 'image', 'win', 'lose' for each item, please check config");
-    });
-
-    test('if config incorrect, and missing selection', () => {
-      const failure = ()=>Options({
-        rock: {image:'', lose:'paper', win:{ scissors: 'blunt'}}, 
-        scissors: {image:'', lose:'rock', win: {paper: 'cut'}}
-      });
-      expect(failure).toThrowError('No response for paper, please check config');
     });
   });
 });
