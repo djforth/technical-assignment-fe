@@ -12,23 +12,31 @@
 			<h1 class='game__title'>Welcome to Rock, Paper Scissors</h1>
 			<div class="game__result">
 				<h2 class="game__result-title">Play game</h2>
-				<p>Don't select option to autoplay</p>
 				<h3 id="result"></h3>
 				<ul class="game__play-btns">
-					<li class="game__play-btn"><button id="play" class="game__button">Play</button></li>
-					<li class="game__play-btn"><button id="version" class="game__button" data-select='advanced'>Advanced</button></li>
+					<li class="game__play-btn"><button id="play" class="game__button" title="Play the game">Play</button></li>
+					<li class="game__play-btn"><button id="version" class="game__button" data-select='advanced' title="Change the version of the game">Advanced</button></li>
 				</ul>
+
+				<div class="game__instruction">
+					<p>Don't select option to autoplay</p>
+					<p>You can use the following key commands:</p>
+					<ul>
+						<li>Numbers will select e.g. 1 is Rock</li>
+						<li>Enter will play game</li>
+					</ul>
+				</div>
 			</div>
 			
 			<section id="player1" class="game__player game__player--p1">
 				<h1 class="game__title game__title--player">Player 1</h1>
-				<h2>Wins: <span id="player1-win">0<span></h2>
+				<h2><span class='visually-hidden'>Number of player 1 </span>Wins: <span id="player1-win" >0<span></h2>
 				<div id='player1-images' class="game__images"></div>
 				<div id='player1-buttons' class="game__buttons"></div>
 			</section>
 			<section id="player2" class="game__player game__player--p2">
 				<h1 class="game__title game__title--player">Player 2</h1>
-				<h2>Wins: <span id="player2-win">0<span></h2>
+				<h2><span class='visually-hidden'>Number of player 2 </span> Wins: <span id="player2-win">0<span></h2>
 				<div id='player2-images' class="game__images"></div>
 				<div id='player2-buttons' class="game__buttons"></div>
 			</section>

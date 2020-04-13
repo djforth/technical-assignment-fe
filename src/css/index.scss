@@ -33,6 +33,14 @@ body {
 	}
 }
 
+.game__instruction {
+	border: 2px solid $border;
+	font-size: 0.875em;
+	margin: 1em;
+	padding: 0.5em;
+	text-align: left;
+}
+
 .game__result {
 	text-align: center;
 }
@@ -91,7 +99,8 @@ body {
 	padding: 0.5em 1em;
 	text-transform: capitalize;
 
-	&:hover {
+	&:hover,
+	&:focus {
 		background-color: $hover;
 		color: $hoverText; 
 	}
@@ -135,4 +144,9 @@ body {
 
 .game__image {
 	max-width: 200px;
+}
+
+// Accessability
+.visually-hidden {
+	@include hidden;
 }
